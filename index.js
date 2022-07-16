@@ -63,36 +63,38 @@ app.get('/',(req,res)=>{
 app.post('/register',async (req,res)=>{
     const {Name, dob, contact, gender, email, state, select} = req.body;
     if(!Name || !dob || !contact || !gender || !email || !state || !select){
-        return res.status(422).json({error: "Required Field"});
+        return res.status("0");
     }
-
-    try{
+   
     const UserExist= await user.findOne({email: email})
     if(UserExist){
         // return res.status(422).json({error: "Email already exists"});
-        return window.alert("Email already exists")
+        res.send("1");
     }
 
     const User = new user({Name, dob, contact, gender, email, state, select})
+let  saved;
+    try{
+     saved = await User.save();
 
-    const saved = await User.save();
+  
     if(saved){
         // res.status(201).json("Registration Successfull")
-        res.redirect('final.html')
+       // res.redirect('final.html')
+        res.send("2");
     }
     else{
         // res.status(500).json({error: "Failed"})
-        return window.alert("Registration Failed")
+        res.send("3")
     }
 
-    }
-    catch(err){
+
         // res.send({error:`Registration failed`})
-        return window.alert('Error Occured')
+        console.warn("err");
+      //  res.send('Error Occured');
+ } catch(e){
+        console.warm(e.message);
     }
-
-    
+    res.end();
 })
-
-
 app.listen(5000);
