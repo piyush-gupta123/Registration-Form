@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const currentSchema = new mongoose.Schema({
     Name: {type:String, required:true},
-    dob: {type:Date, default:Date.now() ,required: true},
+    dob: {type:String,required: true},
     contact: {type:Number, required: true},
     gender:{type:String,required:true},
     email:{type:String, required: true,unique:true},
