@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="download.png">
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- <link rel="stylesheet" href=""> -->
+    <title>Registration Form</title>
+</head>
+<body>
+    <div class="container">
+        <form action="" method="POST" id="form">
+            <h1 class="mainheading">Registration Form</h1>
+            <p class="req">Requied fields*</p>
+            <h2 class="mainheading">Student Information</h2>
+            <p>Name:* <input type="text" id="name" autocomplete="off" required placeholder="Name" value="piyush"></p>
+            <p>Date Of Birth:* <input type="date" autocomplete="off" placeholder="DD-MM-YYYY" id="dob" value="2003-06-29" required></p>
+            <div class="gender" required>
+                <label for="gender">Gender:*</label>
+                <select name="genselect" id="gender">
+                    <option value="Select">Select your Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+           <p>Contact Number* <input type="number" autocomplete="off" placeholder="Phone Number" id="number" required value="7505"></p>
+           <p>Email:* <input type="email" name="email" id="email" autocomplete="off" required placeholder="Email" value="pg@gmail.com"></p>
+           <p>Address:</p><textarea name="address" id="add" cols="30" rows="5" placeholder="Enter your address"></textarea></p>
+           <p>City: <input type="text" placeholder="City"></p>
+           <p>State:* <input type="text" placeholder="State" autocomplete="off" required id="state" value="UK"></p>
+           <div class="course" required>
+            <label for="course" >Course:*</label>
+            <select name="select" id="select">
+                <option value="select_option">Select a course</option>
+                <option value="Android Development">Android Development</option>
+                <option value="Artificial Intelligence" selected>Artificial Intelligence</option>
+                <option value="Blockchain Development">Blockchain Development</option>
+                <option value="Cyber Security">Cyber Security</option>
+                <option value="Data Science">Data Science</option>
+                <option value="Graphic Designing">Graphic Designing</option>
+                <option value="Internet Of Things">Internet Of Things</option>
+                <option value="Machine Learning">Machine Learning</option>
+                <option value="Python Developer">Python Developer</option>
+                <option value="Web Development">Web Development</option>
+                <option value="UI/UX Designer">UI/UX Designer</option>
+            </select>
+
+           </div>
+           <button type="submit">Register</button>
+    
+    
+        </form>
+    </div>
+    
+    
+</body>
+<script>
+    const form = document.getElementById('form')
+    form.addEventListener("submit", registerUser)
+
+
+    async function registerUser(event){
+        event.preventDefault()
+        const name = document.getElementById('name').value
+        const dob = document.getElementById('dob').value
+        const num = document.getElementById('number').value
+        const gender= document.getElementById('gender').value
+        const email = document.getElementById('email').value
+        const state = document.getElementById('state').value
+        const select = document.getElementById('select').value
+
+        const result = await fetch('/register',{
+            method:'POST',
+            headers:{
+                "Content-Type" : "application/json"
+            },
+            body:JSON.stringify({
+                name,dob,num,gender,email,state,select
+            })
+        });
+
+        const data= await result.json();
+
+        if(data.status===422 || !data){
+            window.alert("Invalid Registration")
+            console.log("Invalid Registration")
+        }
+        else{
+            window.alert("Registration Successfull")
+            console.log("Registration Successfull")
+        }
+
+    }
+    
+</script>
+</html>
